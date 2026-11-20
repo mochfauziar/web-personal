@@ -12,11 +12,6 @@ export const site = {
   email: "moch.fauzi.ar@gmail.com",
   socials: [
     {
-      label: "Email",
-      href: "mailto:moch.fauzi.ar@gmail.com",
-      handle: "moch.fauzi.ar@gmail.com",
-    },
-    {
       label: "GitHub",
       href: "https://github.com/mochfauziar",
       handle: "github.com/mochfauziar",
