@@ -42,9 +42,9 @@ export function getBySlug(type: ContentType, slug: string): Entry | null {
   if (!fs.existsSync(file)) return null;
 
   const { data, content } = matter(fs.readFileSync(file, "utf8"));
-  if (data.published === false) return null;
-
   const { title, date, summary, tags, published, ...meta } = data;
+
+  if (published === false) return null;
 
   return {
     type,

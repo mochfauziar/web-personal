@@ -12,7 +12,7 @@ export default function Home() {
           Saya suka membangun sistem dan belajar hal baru. Di sini saya
           menyimpan proyek dan catatan perjalanan saya.
         </p>
-        <Link href="/projects" className="inline-block rounded-full bg-[var(--accent)] px-5 py-2 text-white">
+        <Link href="/projects" className="inline-block rounded-full bg-[var(--accent)] px-5 py-2 text-[var(--bg)] transition-opacity hover:opacity-90">
           Lihat proyek saya
         </Link>
       </section>

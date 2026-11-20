@@ -23,11 +23,11 @@ export default function ContactPage() {
             <span className="font-medium">{s.label}</span>
             <a
               href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={s.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel={s.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
               className="underline underline-offset-4 hover:opacity-80"
             >
-              {s.href.replace("https://", "")}
+              {s.handle}
             </a>
           </li>
         ))}

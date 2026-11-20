@@ -11,7 +11,7 @@ export default function AboutPage() {
     <article>
       <h1 className="text-3xl font-bold tracking-tight">Tentang</h1>
 
-      <div className="prose prose-neutral mt-6 max-w-none dark:prose-invert">
+      <div className="prose prose-neutral mt-6 max-w-none dark:prose-invert prose-a:text-[var(--accent)]">
         <p>
           Halo, saya Moch Fauzi, seorang software engineer. Sehari-hari saya
           membangun sistem dan menulis kode, dan saya suka belajar hal baru
