@@ -3,10 +3,10 @@ import ThemeToggle from "./ThemeToggle";
 import { site } from "@/lib/site";
 
 const links = [
-  { href: "/projects", label: "Proyek" },
-  { href: "/blog", label: "Tulisan" },
-  { href: "/about", label: "Tentang" },
-  { href: "/contact", label: "Kontak" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -15,7 +15,7 @@ export default function Navbar() {
       <Link href="/" className="w-fit font-bold focus-visible:rounded-sm">
         {site.name}
       </Link>
-      <nav aria-label="Navigasi utama" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+      <nav aria-label="Main navigation" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
         {links.map((l) => (
           <Link key={l.href} href={l.href} className="hover:text-[var(--accent)]">
             {l.label}
