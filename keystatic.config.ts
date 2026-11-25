@@ -57,5 +57,56 @@ export default config({
         }),
       },
     }),
+
+    projects: collection({
+      label: "Proyek",
+      slugField: "title",
+      path: "content/projects/*",
+      format: { contentField: "content" },
+      schema: {
+        title: fields.slug({
+          name: { label: "Nama Proyek" },
+        }),
+        year: fields.number({
+          label: "Tahun",
+          defaultValue: new Date().getFullYear(),
+          validation: { isRequired: true },
+        }),
+        summary: fields.text({
+          label: "Ringkasan",
+          description: "Satu kalimat singkat yang muncul di kartu proyek.",
+          validation: { isRequired: true },
+        }),
+        tags: fields.array(
+          fields.text({ label: "Teknologi" }),
+          {
+            label: "Teknologi / Tags",
+            itemLabel: (props) => props.value,
+            description: "Teknologi yang dipakai, mis: Java, Next.js, dsb.",
+          }
+        ),
+        role: fields.text({
+          label: "Peran",
+          description: "Peran Anda di proyek ini, mis: Developer, Tech Lead.",
+        }),
+        repo: fields.url({
+          label: "Link GitHub",
+          description: "Kosongkan jika tidak ada.",
+        }),
+        demo: fields.url({
+          label: "Link Demo / Website",
+          description: "Kosongkan jika tidak ada.",
+        }),
+        featured: fields.checkbox({
+          label: "Tampilkan di urutan teratas",
+          defaultValue: false,
+        }),
+        content: fields.mdx({
+          label: "Detail Proyek",
+          description:
+            "Jelaskan masalah, solusi, tantangan, dan dampaknya.",
+        }),
+      },
+    }),
   },
 });

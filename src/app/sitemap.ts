@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "@/lib/content";
+import { getAllPosts, getAllProjects } from "@/lib/content";
 import { site } from "@/lib/site";
 
-// Sitemap dinamis: rute statis + tiap tulisan dari konten MDX.
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
@@ -21,5 +20,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...posts];
+  const projects: MetadataRoute.Sitemap = getAllProjects().map((p) => ({
+    url: `${site.url}/projects/${p.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...posts, ...projects];
 }

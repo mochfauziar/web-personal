@@ -1,0 +1,68 @@
+---
+title: "Validasi Budget Otomatis pada Workflow Jurnal"
+slug: "validasi-budget"
+year: 2026
+summary: "Plugin validasi di platform Joget yang mencegah jurnal melebihi budget sebelum disubmit, termasuk untuk transaksi multi-mata uang."
+tags: ["Joget", "Java", "Oracle", "Plugin", "Workflow"]
+cover: "/projects/validasi-budget/cover.png"
+role: "Developer"
+---
+
+## Masalah
+
+Pada sistem keuangan internal, jurnal bisa disubmit tanpa memastikan
+budget masih cukup. Pengecekan dilakukan manual oleh tim keuangan setelah
+dokumen masuk, sehingga jurnal yang melebihi budget baru ketahuan di tahap
+akhir dan harus dikembalikan.
+
+Kerumitan bertambah karena transaksi bisa memakai mata uang berbeda dari
+dokumen anggarannya (misalnya anggaran dalam USD, jurnal dalam IDR).
+
+## Solusi
+
+Saya membuat plugin validasi (Java) yang dipasang pada field nominal di
+form. Saat pengguna mengisi nominal, plugin langsung:
+
+1. Menentukan **jalur validasi**: transaksi yang terkait pengajuan anggaran
+   (GA) dan yang tidak, karena sumber data budget-nya berbeda.
+2. Menghitung **sisa budget** dari data realisasi yang sudah terpakai.
+3. Menyesuaikan nominal berdasarkan **kombinasi mata uang** anggaran dan
+   jurnal, supaya perbandingannya selalu apple-to-apple.
+4. Menampilkan **pesan error yang jelas** (kode budget, sisa tersedia, dan
+   kekurangannya) jika nominal melebihi batas, sehingga pengguna tahu
+   persis apa yang harus diperbaiki.
+5. Menerapkan **toleransi kecil** pada jalur GA untuk menghindari penolakan
+   akibat selisih pembulatan kurs.
+
+```java
+// Ilustrasi ide inti (disederhanakan, bukan kode produksi)
+BigDecimal sisa = limit.subtract(terpakai);
+BigDecimal nominal = pilihNominal(mataUangAnggaran, mataUangJurnal);
+
+if (nominal.compareTo(sisa.add(TOLERANSI)) > 0) {
+    return "Budget tidak cukup. Sisa tersedia: " + sisa
+         + ", kurang: " + nominal.subtract(sisa);
+}
+```
+
+## Tantangan
+
+- **Aturan mata uang berbeda-beda.** Tiap kombinasi (sama, beda, salah satu
+  USD) punya rumus konversi sendiri dari analis. Saya memisahkannya jadi
+  fungsi kecil per kasus supaya mudah diuji dan diubah.
+- **Konfigurasi form tidak boleh berubah.** Properti plugin di produksi
+  sudah terpasang dengan pemetaan tertentu, jadi logika kode yang
+  menyesuaikan, bukan konfigurasinya.
+
+## Dampak
+
+- Jurnal yang melebihi budget tertolak **sebelum** masuk alur persetujuan.
+- Mengurangi pengecekan manual dan dokumen yang dikembalikan.
+- Pesan error yang spesifik mempercepat perbaikan oleh pengguna.
+
+<!-- Tambahkan angka jika ada, misalnya "mengurangi pengembalian dokumen ±X%" -->
+
+## Yang saya pelajari
+
+Aturan bisnis keuangan sebaiknya dipecah per kasus dan dites satu per satu,
+karena kombinasi kecil (mata uang, jalur) mudah menimbulkan celah.
